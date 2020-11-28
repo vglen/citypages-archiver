@@ -1,12 +1,15 @@
-FROM webdevops/base:alpine
+FROM alpine:3.12.1
 
-MAINTAINER Ivan Stegic code@ivanstegic.com
+LABEL Ivan Stegic code@ivanstegic.com
 
-COPY conf/ /opt/docker/
+COPY conf/ /opt/docker
 
-RUN apk --no-cache add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing httrack \
-    && docker-image-cleanup
-
+RUN apk --no-cache add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    httrack~=3.49.2-r3 &&\
+    find /var/lib/apk/ -mindepth 1 -delete
+RUN addgroup -g 1000 archiver && adduser -S -G archiver archiver && mkdir -p /app && chown -R archiver:archiver /app
+USER archiver 
 WORKDIR /app
 
-CMD ["httrack"]
+ENTRYPOINT ["/usr/bin/httrack"]
+CMD ["--help"]

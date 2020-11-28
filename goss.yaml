@@ -1,0 +1,18 @@
+---
+command:
+  alpine-version:
+    exit-status: 0
+    exec: 'cat /etc/alpine-release'
+    stdout:
+      - '3.12.1'
+    stderr: []
+    timeout: 5000
+    skip: False
+  httack-version:
+    exit-status: 0
+    exec: "httrack --version"
+    stdout:
+      - 'HTTrack version 3.49-2'
+    stderr: []
+    timeout: 5000
+    skip: False
